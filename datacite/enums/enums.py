@@ -1,10 +1,12 @@
 from enum import Enum
 
+
 class TitleTypeEnum(Enum):
     AlternativeTitle = 'AlternativeTitle'
     Subtitle = 'Subtitle'
     TranslatedTitle = 'TranslatedTitle'
     Other = 'Other'
+
 
 class DateTypeEnum(Enum):
     Accepted = 'Accepted'

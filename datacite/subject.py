@@ -4,6 +4,8 @@ from marshmallow import Schema, fields, ValidationError, pre_load, post_load
 # Subject, keywords, classification codes, or key phrases describing the resource
 
 class Subject(object):
+    '''Subject object'''
+
     def __init__(self, subject=None, subjectScheme=None, valueURI=None, schemeURI=None, lang=None):
         self.subject = subject
         self.subjectScheme = subjectScheme
@@ -13,6 +15,8 @@ class Subject(object):
 
 
 class SubjectSchema(Schema):
+    '''Subject object schema'''
+
     subject = fields.String()
     subjectScheme = fields.String()
     valueURI = fields.Url()
@@ -21,4 +25,5 @@ class SubjectSchema(Schema):
 
     @post_load
     def make_subject(self, data):
+        '''Return Subject object after loading'''
         return Subject(**data)

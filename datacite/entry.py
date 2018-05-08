@@ -18,6 +18,8 @@ from .related_identifier import RelatedIdentifierSchema
 
 
 class Entry(object):
+    '''Entry object'''
+
     def __init__(self, identifier, creators, titles, publisher, publicationYear, resourceType, contributors=None,
                  dates=None, language=None, alternateIdentifiers=None, relatedIdentifiers=None, size=None, formats=None,
                  version=None, rightsList=None, descriptions=None, fundingReferences=None, geoLocations=None,
@@ -44,12 +46,24 @@ class Entry(object):
 
 
 class EntrySchema(Schema):
+    '''Entry object schema'''
+
     identifier = fields.Nested('IdentifierSchema', many=False, required=True)
     creators = fields.Nested('CreatorSchema', many=True, required=True)
     titles = fields.Nested('TitleSchema', many=True, required=True)
-    # The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the resource. This property will be used to formulate the citation, so consider the prominence of the role. In the case of datasets, \"publish\" is understood to mean making the data available to the community of researchers.
+
+    # The name of the entity that holds, archives, publishes prints, distributes,
+    # releases, issues, or produces the resource.
+    # This property will be used to formulate the citation, so consider the
+    # prominence of the role. In the case of datasets, "publish" is
+    # understood to mean making the data available to the community of researchers.
     publisher = fields.String(required=True)
-    # Year when the data is made publicly available. If an embargo period has been in effect, use the date when the embargo period ends. In the case of datasets, \"publish\" is understood to mean making the data available on a specific date to the community of researchers. If there is no standard publication year value, use the date that would be preferred from a citation perspective.
+
+    # Year when the data is made publicly available. If an embargo period has
+    # been in effect, use the date when the embargo period ends. In the case of datasets,
+    # "publish" is understood to mean making the data available on a specific date to
+    # the community of researchers. If there is no standard publication year value,
+    # use the date that would be preferred from a citation perspective.
     publicationYear = fields.Integer(required=True)
     subjects = fields.Nested('SubjectSchema', many=True)
     contributors = fields.Nested('ContributorSchema', many=True)
@@ -64,28 +78,32 @@ class EntrySchema(Schema):
     # Technical format of the resource. Use file extension or MIME type where possible.
     formats = fields.List(fields.String())
 
-    # Version number of the resource. If the primary resource has changed the version number increases.
-    # Register a new identifier for a major version change. Individual stewards need to determine which are
-    # major vs. minor versions. May be used in conjunction with properties 11 and 12 (AlternateIdentifier and
-    # RelatedIdentifier) to indicate various information updates. May be used in conjunction with property 17
+    # Version number of the resource. If the primary resource has changed the version number
+    # increases. Register a new identifier for a major version change. Individual stewards
+    # need to determine which are major vs. minor versions. May be used in conjunction with
+    # properties 11 and 12 (AlternateIdentifier and RelatedIdentifier) to indicate various
+    # information updates. May be used in conjunction with property 17
     # (Description) to indicate the nature and file/record range of version.
     version = fields.String()
 
-    # Any rights information for this resource.Provide a rights management statement for the resource or reference a
-    # service providing such information.Include embargo information if applicable.Use the complete title of a
-    # license and include version information if applicable."
+    # Any rights information for this resource.Provide a rights management statement for
+    # the resource or reference a service providing such information.Include embargo
+    # information if applicable. Use the complete title of a license and include version
+    # information if applicable.
     rightsList = fields.Nested('RightSchema', many=True)
 
-    # All additional information that does not fit in any of the other categories. May be used for technical information.
-    # It is a best practice to supply a description.
+    # All additional information that does not fit in any of the other categories.
+    # May be used for technical information. It is a best practice to supply a description.
     descriptions = fields.Nested('DescriptionSchema', many=True)
 
     # Information about financial support (funding) for the resource being registered.
     fundingReferences = fields.Nested('FundingReferenceSchema', many=True)
 
-    # Spatial region or named place where the data was gathered or about which the data is focused.
-    #geoLocations = fields.Nested('GeoLocationSchema', many=True)
+    # Spatial region or named place where the data was gathered or about which the data is
+    # focused.
+    geoLocations = fields.Nested('GeoLocationSchema', many=True)
 
     @post_load
     def make_entry(self, data):
-       return Entry(**data)
+        '''Return Entry object after loading'''
+        return Entry(**data)

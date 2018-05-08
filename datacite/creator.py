@@ -3,12 +3,15 @@ from marshmallow_enum import EnumField
 from .enums.enums import NameTypeEnum
 
 
-# The main researchers involved working on the data, or the authors of the publication in priority order.
-# May be a corporate/institutional or personal name. Format: Family, Given
+# The main researchers involved working on the data, or the authors of the publication in
+# priority order. May be a corporate/institutional or personal name
 
 class Creator(object):
+    '''Creator object'''
+
     def __init__(self, creatorName, nameType=None, givenName=None, familyName=None, nameIdentifiers=None,
                  affiliations=None):
+        # Format: Family, Given
         self.creatorName = creatorName
         self.nameType = nameType
         self.givenName = givenName
@@ -18,6 +21,7 @@ class Creator(object):
 
 
 class CreatorSchema(Schema):
+    '''Creator object schema'''
     creatorName = fields.String(required=True)
     # NameTypeEnum
     nameType = EnumField(NameTypeEnum)
@@ -28,4 +32,5 @@ class CreatorSchema(Schema):
 
     @post_load
     def make_creator(self, data):
+        '''Return Creator object after loading'''
         return Creator(**data)
